@@ -281,7 +281,7 @@ html[data-unicorn="on"]:not(.dark) {
   --muted-foreground: oklch(
     0.42 0.012 84.59
   ); /* darker: sits on the gradient */
-  --brand-label: oklch(0.5 0.13 38.9); /* terracotta text, AA on pastel */
+  --brand-label: oklch(0.44 0.12 38.9); /* terracotta text, AA on pastel */
   --popover: oklch(1 0 0 / 0.96); /* menus and dialogs stay >= 90% opaque */
 
   --unicorn-glass: oklch(1 0 0 / 0.6);

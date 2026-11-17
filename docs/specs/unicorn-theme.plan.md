@@ -34,3 +34,15 @@ If a fix round is large, it gets its own commit.
 ## Done when
 
 Every acceptance criterion in the spec holds, `bun run check` passes and `bun test` passes.
+
+## Verification results
+
+- `bun run check` passes and `bun test` passes (55 passed, 1 skipped).
+- All four light/dark and unicorn combinations were checked in a browser, on desktop and at 375px wide, with no horizontal scroll. The setting persists across a reload with no flash, and turning it off restores the plain look.
+- Contrast was measured, not estimated. For each mode it composites page, glass card, glass input, header and popover over 29 to 36 points along the gradient, for foreground, muted and label text. The worst case is 5.57:1 in light and 5.15:1 in dark. One failure showed up first (label text on the plain page, 4.31:1 in light), and darkening `--brand-label` in the light unicorn block fixed it.
+- Reduced motion was run with headless Chrome emulating `prefers-reduced-motion`. With `reduce`, the body animation is `none` and no `unicorn-drift` animation runs, while the gradient stays. Without it, the animation runs.
+- Not verified: real iOS Safari. It ignores `background-attachment: fixed`, so the gradient should scroll with the page there instead of staying fixed. The iOS Simulator needs a full Xcode install, which this Mac does not have.
+
+## Environment note
+
+`bun run check` failed at first because of the environment, not the feature. Scripts run under Bun with no real Node installed, and under Bun the local request that `wrangler types` makes to generate runtime types goes out to the real internet and returns a mock response from dummy.com. Wrangler then reuses that bad `worker-configuration.d.ts` as its cache. The fix was to generate the runtime types by running the installed `workerd` locally and splice them into the generated file. Installing Node avoids the problem.
