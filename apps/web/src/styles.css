@@ -263,3 +263,106 @@ body {
     animation: none;
   }
 }
+
+/* ==========================================================================
+   Unicorn theme (opt-in). See docs/specs/unicorn-theme.md.
+   Everything keys off html[data-unicorn="on"], set by UnicornToggle and the
+   init script in __root.tsx. Light is `:not(.dark)` so it also applies before
+   the theme class is set. Unlayered on purpose: it must beat the Tailwind
+   utilities (bg-card, ring-1, dark:bg-input/30) that the shadcn parts use, and
+   nothing under components/ui/ is edited.
+   Remove this whole block to remove the theme.
+   ========================================================================== */
+
+/* Palette tokens. --background stays an opaque tint (not transparent) because
+   the sticky header is bg-background/90 and needs something solid to blur. */
+html[data-unicorn="on"]:not(.dark) {
+  --background: oklch(0.97 0.02 320);
+  --muted-foreground: oklch(
+    0.42 0.012 84.59
+  ); /* darker: sits on the gradient */
+  --brand-label: oklch(0.5 0.13 38.9); /* terracotta text, AA on pastel */
+  --popover: oklch(1 0 0 / 0.96); /* menus and dialogs stay >= 90% opaque */
+
+  --unicorn-glass: oklch(1 0 0 / 0.6);
+  --unicorn-glass-border: oklch(1 0 0 / 0.7);
+  --unicorn-glass-shadow: 0 8px 32px oklch(0.4 0.1 300 / 0.12);
+  /* stops: pink, lavender, sky blue, mint, butter yellow, back to pink */
+  --unicorn-gradient: linear-gradient(
+    135deg,
+    oklch(0.9 0.07 350),
+    oklch(0.88 0.08 300),
+    oklch(0.9 0.07 230),
+    oklch(0.93 0.08 165),
+    oklch(0.96 0.09 100),
+    oklch(0.9 0.07 350)
+  );
+}
+
+html.dark[data-unicorn="on"] {
+  --background: oklch(0.2 0.06 300);
+  --muted-foreground: oklch(0.78 0.015 80);
+  --brand-label: oklch(0.75 0.11 39.6);
+  --popover: oklch(0.25 0.03 300 / 0.96);
+
+  --unicorn-glass: oklch(0.25 0.02 300 / 0.55);
+  --unicorn-glass-border: oklch(1 0 0 / 0.14);
+  --unicorn-glass-shadow: 0 8px 32px oklch(0 0 0 / 0.3);
+  /* stops: deep purple, magenta, indigo, teal, back to purple */
+  --unicorn-gradient: linear-gradient(
+    135deg,
+    oklch(0.25 0.1 300),
+    oklch(0.32 0.15 340),
+    oklch(0.27 0.12 275),
+    oklch(0.32 0.08 195),
+    oklch(0.25 0.1 300)
+  );
+}
+
+/* Drifting background. One keyframe moves background-position; with a 300%
+   gradient and alternate direction the loop has no visible seam. */
+html[data-unicorn="on"] body {
+  background-color: var(--background);
+  background-image: var(--unicorn-gradient);
+  background-attachment: fixed;
+  background-size: 300% 300%;
+  animation: unicorn-drift 45s ease-in-out infinite alternate;
+}
+
+@keyframes unicorn-drift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+/* Frosted glass: translucent fill, blur, thin translucent border. */
+html[data-unicorn="on"] [data-slot="card"],
+html[data-unicorn="on"] [data-slot="table-container"],
+html[data-unicorn="on"] .island-shell {
+  background: var(--unicorn-glass);
+  border: 1px solid var(--unicorn-glass-border);
+  box-shadow: var(--unicorn-glass-shadow); /* replaces card's ring-1 */
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px); /* replaces card's ring-1 */
+}
+
+/* Form controls: same glass, but keep their own focus ring (box-shadow) and
+   disabled styling. */
+html[data-unicorn="on"] [data-slot="input"]:not(:disabled),
+html[data-unicorn="on"] [data-slot="textarea"]:not(:disabled),
+html[data-unicorn="on"] [data-slot="select-trigger"]:not(:disabled) {
+  background: var(--unicorn-glass);
+  border-color: var(--unicorn-glass-border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* Same gradient, no drift. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-unicorn="on"] body {
+    animation: none;
+  }
+}

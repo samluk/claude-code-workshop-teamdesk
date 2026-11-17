@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import ThemeToggle from "./theme-toggle";
+import UnicornToggle from "./unicorn-toggle";
 
 export default function Header() {
   return (
@@ -75,7 +76,8 @@ export default function Header() {
           </a>
         </div>
 
-        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+        <div className="ml-auto flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <UnicornToggle />
           <ThemeToggle />
         </div>
       </nav>
