@@ -287,6 +287,10 @@ html[data-unicorn="on"]:not(.dark) {
   --unicorn-glass: oklch(1 0 0 / 0.6);
   --unicorn-glass-border: oklch(1 0 0 / 0.7);
   --unicorn-glass-shadow: 0 8px 32px oklch(0.4 0.1 300 / 0.12);
+  --unicorn-tile-from: oklch(1 0 0 / 0.78);
+  --unicorn-tile-to: oklch(1 0 0 / 0.42);
+  --unicorn-tile-edge: oklch(1 0 0 / 0.95);
+  --unicorn-tile-shadow: 0 14px 40px oklch(0.4 0.12 300 / 0.2);
   /* stops: pink, lavender, sky blue, mint, butter yellow, back to pink */
   --unicorn-gradient: linear-gradient(
     135deg,
@@ -308,6 +312,10 @@ html.dark[data-unicorn="on"] {
   --unicorn-glass: oklch(0.25 0.02 300 / 0.55);
   --unicorn-glass-border: oklch(1 0 0 / 0.14);
   --unicorn-glass-shadow: 0 8px 32px oklch(0 0 0 / 0.3);
+  --unicorn-tile-from: oklch(0.38 0.05 300 / 0.62);
+  --unicorn-tile-to: oklch(0.22 0.04 300 / 0.42);
+  --unicorn-tile-edge: oklch(1 0 0 / 0.28);
+  --unicorn-tile-shadow: 0 14px 40px oklch(0 0 0 / 0.4);
   /* stops: deep purple, magenta, indigo, teal, back to purple */
   --unicorn-gradient: linear-gradient(
     135deg,
@@ -347,6 +355,25 @@ html[data-unicorn="on"] .island-shell {
   box-shadow: var(--unicorn-glass-shadow); /* replaces card's ring-1 */
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px); /* replaces card's ring-1 */
+}
+
+/* Home page tiles are bare text with a top rule, so under unicorn they become
+   raised glass panels, a step stronger than ordinary glass: a diagonal sheen,
+   a bright top edge, a heavier blur and a larger shadow. */
+html[data-unicorn="on"] .home-tile {
+  padding: 1.25rem 1.25rem 1.5rem;
+  background: linear-gradient(
+    145deg,
+    var(--unicorn-tile-from),
+    var(--unicorn-tile-to)
+  );
+  border: 1px solid var(--unicorn-glass-border);
+  border-radius: var(--radius);
+  box-shadow:
+    var(--unicorn-tile-shadow),
+    inset 0 1px 0 var(--unicorn-tile-edge);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
 }
 
 /* Form controls: same glass, but keep their own focus ring (box-shadow) and

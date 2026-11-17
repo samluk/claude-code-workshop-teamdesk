@@ -46,7 +46,7 @@ function App() {
       <section className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {pages.map(({ description, title, to }, index) => (
           <article
-            className="rise-in border-border border-t pt-5"
+            className="home-tile rise-in border-border border-t pt-5"
             key={title}
             style={{ animationDelay: `${index * 90 + 80}ms` }}
           >
