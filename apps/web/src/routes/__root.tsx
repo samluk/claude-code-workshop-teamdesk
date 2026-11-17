@@ -5,6 +5,7 @@ import { TooltipProvider } from "#/components/ui/tooltip";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import ThemedToaster from "../components/themed-toaster";
+import UnicornConfetti from "../components/unicorn-confetti";
 
 import appCss from "../styles.css?url";
 
@@ -49,6 +50,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <div className="flex-1 pb-20">{children}</div>
           <Footer />
           <ThemedToaster />
+          <UnicornConfetti />
           <TanStackDevtools
             config={{
               position: "bottom-right",

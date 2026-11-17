@@ -46,6 +46,15 @@ All of this goes in [styles.css](../../apps/web/src/styles.css), keyed off `html
 - **Header:** it is already `bg-background/90` with a backdrop blur, so it picks up the tinted `--background` and needs no extra work beyond a check.
 - **Reduced motion:** `@media (prefers-reduced-motion: reduce)` sets `animation: none` on the unicorn background.
 
+## Click effect (added after the first build)
+
+While unicorn is on, clicking a button sets off a burst of confetti and sparkles from the middle of that button.
+
+- **What counts as a button:** any `button`, `[role="button"]` or `[data-slot="button"]` (the shadcn button, including links rendered as buttons). Disabled buttons (`:disabled` or `aria-disabled="true"`) do nothing. Native `<select>` controls are not buttons and do nothing.
+- **The burst:** 18 confetti pieces in the rainbow palette and 8 glowing four-point sparkles. The confetti fans upward, peaks, then falls with a spin. If the button is within 150px of the top of the viewport, it fans downward so it stays on screen. Everything is removed when its animation ends, and rapid clicking is capped at 150 live particles.
+- **When it does not run:** unicorn off, or `prefers-reduced-motion: reduce`.
+- **How:** one client-only component, `apps/web/src/components/unicorn-confetti.tsx`, mounted in `__root.tsx`. It adds a single document click listener and animates plain DOM elements in a fixed overlay with the Web Animations API. No new dependency.
+
 ## Acceptance criteria
 
 - The Unicorn button appears in the header on desktop and on mobile width, without breaking the header's wrapping.
@@ -59,7 +68,7 @@ All of this goes in [styles.css](../../apps/web/src/styles.css), keyed off `html
 
 - Per-user or server-side theme storage. This is `localStorage` only.
 - Seasonal or other color themes, or a theme picker.
-- Animating anything except the page background.
+- Animating anything except the page background and the click effect below.
 - Editing `apps/web/src/components/ui/**`, which CLAUDE.md marks as generated.
 - Tests. There is no existing UI test harness for the theme toggle, and this is a visual feature that needs a manual check in the browser.
 
